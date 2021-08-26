@@ -8,6 +8,11 @@ const authelia = process.env.AUTHELIA || "http://authelia:9091";
 app.get('/', async (req, res) => {
 
     try {
+        if(req.headers.authorization)
+        {
+            req.headers['proxy-authorization'] = req.headers.authorization;
+        }
+
         var response = await axios({
             url: `${authelia}`,
             method: req.method as Method,
